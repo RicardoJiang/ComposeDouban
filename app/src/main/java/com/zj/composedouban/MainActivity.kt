@@ -8,16 +8,21 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.core.view.WindowCompat
+import com.google.accompanist.insets.ProvideWindowInsets
+import com.zj.composedouban.ui.screens.home.HomeScreen
 import com.zj.composedouban.ui.theme.ComposeDoubanTheme
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        WindowCompat.setDecorFitsSystemWindows(window, false)
         setContent {
             ComposeDoubanTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(color = MaterialTheme.colors.background) {
-                    Greeting("Android")
+                ProvideWindowInsets() {
+                    Surface(color = MaterialTheme.colors.background) {
+                        HomeScreen()
+                    }
                 }
             }
         }
