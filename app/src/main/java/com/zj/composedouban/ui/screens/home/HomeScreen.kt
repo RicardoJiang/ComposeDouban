@@ -3,7 +3,9 @@ package com.zj.composedouban.ui.screens.home
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
@@ -25,17 +27,32 @@ import com.zj.composedouban.util.noRippleClickable
 
 @Composable
 fun HomeScreen() {
-    Column(Modifier) {
-        rememberSystemUiController().setStatusBarColor(Color.Transparent, darkIcons = true)
-        Spacer(
-            modifier = Modifier
-                .fillMaxWidth()
-                .statusBarsHeight()
-        )
-        TopRank()
-        YearRank()
+    rememberSystemUiController().setStatusBarColor(Color.Transparent, darkIcons = true)
+    LazyColumn(Modifier) {
+        item {
+            Spacer(
+                modifier = Modifier.statusBarsHeight()
+            )
+        }
+        item {
+            TopRank()
+        }
+        item {
+            YearRank()
+        }
+        item {
+            TypeRankTitle()
+        }
+        val list = (1..16).toList().map { it.toString() }
+        items(list.chunked(2)) {
+            TypeRankRow(row = it)
+        }
+        item {
+            Spacer(modifier = Modifier.height(30.dp))
+        }
     }
 }
+
 
 @Composable
 fun TopRank() {
@@ -201,6 +218,91 @@ fun YearRankItems(year: String) {
                     )
                 }
             }
+        }
+    }
+}
+
+@Composable
+fun TypeRankTitle() {
+    Text(
+        text = "电影类型榜单",
+        color = Color.Black,
+        style = MaterialTheme.typography.h5,
+        modifier = Modifier.padding(16.dp, 16.dp, 16.dp, 0.dp)
+    )
+}
+
+@Composable
+fun TypeRankRow(row: List<String>) {
+    val first = row.first()
+    val second = row.last()
+    Row(
+        horizontalArrangement = Arrangement.SpaceEvenly,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(0.dp, 16.dp, 0.dp, 0.dp)
+    ) {
+        TypeRankItem()
+        TypeRankItem()
+    }
+}
+
+
+@Composable
+fun TypeRankItem() {
+    Box(
+        modifier = Modifier
+            .size(180.dp, 180.dp)
+            .clip(RoundedCornerShape(10.dp))
+    ) {
+        Image(
+            painter = rememberCoilPainter(request = "https://img2.doubanio.com/view/photo/s_ratio_poster/public/p480747492.jpg"),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.fillMaxSize()
+        )
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(
+                    brush = Brush.linearGradient(
+                        colors = listOf(Color(0xFF7F6351), Color(0x807F6351)),
+                        start = Offset(0f, Float.POSITIVE_INFINITY),
+                        end = Offset(Float.POSITIVE_INFINITY, 0f)
+                    )
+                )
+                .padding(8.dp)
+
+        ) {
+            Text(
+                text = "近期",
+                color = Color.White,
+                style = MaterialTheme.typography.subtitle1
+            )
+            Text(text = "热门电影Top20", color = Color.White, style = MaterialTheme.typography.h6)
+
+            Text(
+                text = "1 你好，李焕英",
+                color = Color.White,
+                style = MaterialTheme.typography.overline,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+                modifier = Modifier.padding(0.dp, 70.dp, 0.dp, 0.dp)
+            )
+            Text(
+                text = "2 心灵奇旅",
+                color = Color.White,
+                style = MaterialTheme.typography.overline,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            Text(
+                text = "3 送你一朵小红花",
+                color = Color.White,
+                style = MaterialTheme.typography.overline,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
         }
     }
 }
