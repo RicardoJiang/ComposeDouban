@@ -10,6 +10,7 @@ import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
@@ -26,29 +27,57 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
+import androidx.paging.LoadState
+import androidx.paging.compose.collectAsLazyPagingItems
+import androidx.paging.compose.items
 import com.google.accompanist.coil.rememberCoilPainter
 import com.google.accompanist.insets.statusBarsHeight
 import com.zj.composedouban.R
 import com.zj.composedouban.data.RankDetail
 import com.zj.composedouban.data.rankDetailList
+import com.zj.composedouban.viewmodel.RankViewModel
 
 @Composable
-fun RankScreen() {
+fun RankScreen(viewModel: RankViewModel = RankViewModel()) {
+    val lazyMovieItems = viewModel.rankItems.collectAsLazyPagingItems()
     val scrollState = rememberLazyListState()
     Box {
         LazyColumn(state = scrollState) {
             item {
                 RankTopItem()
             }
-            items(rankDetailList) {
-                RankListItem(it)
+            items(lazyMovieItems) {
+                it?.let {
+                    RankListItem(it)
+                }
+            }
+
+            lazyMovieItems.apply {
+                when (loadState.append) {
+                    is LoadState.Loading -> {
+                        item { LoadingItem() }
+                    }
+                    else -> {
+                    }
+                }
             }
             item {
-                Spacer(modifier = Modifier.height(32.dp))
+                Spacer(modifier = Modifier.height(16.dp))
             }
         }
         RankHeader(scrollState)
     }
+}
+
+@Composable
+fun LoadingItem() {
+    CircularProgressIndicator(
+        color = Color(0xFF7F6351),
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp)
+            .wrapContentWidth(Alignment.CenterHorizontally)
+    )
 }
 
 @Composable
