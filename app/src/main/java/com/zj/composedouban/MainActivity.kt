@@ -44,7 +44,6 @@ fun ComposeDoubanUI() {
                 AppState.Home -> {
                     HomeScreen()
                 }
-
             }
 
         }

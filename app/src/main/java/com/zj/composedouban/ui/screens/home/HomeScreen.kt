@@ -2,6 +2,7 @@ package com.zj.composedouban.ui.screens.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -18,11 +19,13 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.coil.rememberCoilPainter
 import com.google.accompanist.insets.statusBarsHeight
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
+import com.zj.composedouban.activity.RankDetailActivity
 import com.zj.composedouban.util.noRippleClickable
 
 @Composable
@@ -72,11 +75,15 @@ fun TopRank() {
 
 @Composable
 fun TopRankItem() {
+    val context = LocalContext.current
     Box(
         modifier = Modifier
             .size(180.dp, 220.dp)
             .padding(8.dp)
             .clip(RoundedCornerShape(10.dp))
+            .clickable {
+                RankDetailActivity.navigate(context)
+            }
     ) {
         Image(
             painter = rememberCoilPainter(request = "https://img2.doubanio.com/view/photo/s_ratio_poster/public/p480747492.jpg"),

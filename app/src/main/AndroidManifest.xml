@@ -21,6 +21,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+        <activity
+            android:name=".activity.RankDetailActivity"
+            android:exported="false"
+            android:theme="@style/Theme.ComposeDouban.NoActionBar"/>
     </application>
 
 </manifest>
