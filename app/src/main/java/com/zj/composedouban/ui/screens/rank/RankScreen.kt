@@ -9,12 +9,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.lazy.rememberLazyListState
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.alpha
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
@@ -22,6 +24,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.coil.rememberCoilPainter
 import com.google.accompanist.insets.statusBarsHeight
@@ -102,7 +105,7 @@ fun RankTopItem() {
             .height(300.dp)
     ) {
         Image(
-            painter = rememberCoilPainter(request = "https://img2.doubanio.com/view/photo/s_ratio_poster/public/p480747492.jpg"),
+            painter = rememberCoilPainter(request = "https://img3.doubanio.com/view/photo/l/public/p456482220.webp"),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
@@ -150,13 +153,66 @@ fun RankTopItem() {
 
 @Composable
 fun RankListItem() {
-    Box(
+    Column(
         modifier = Modifier
-            .fillMaxSize()
+            .fillMaxWidth()
             .padding(16.dp)
-            .height(100.dp)
-            .background(Color.Blue)
     ) {
-
+        Row() {
+            Image(
+                painter = rememberCoilPainter(request = "https://img2.doubanio.com/view/photo/s_ratio_poster/public/p480747492.jpg"),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .height(120.dp)
+                    .weight(1f)
+                    .clip(RoundedCornerShape(10.dp))
+            )
+            Image(
+                painter = rememberCoilPainter(request = "https://img3.doubanio.com/view/photo/l/public/p456482220.webp"),
+                contentDescription = null,
+                contentScale = ContentScale.Crop,
+                modifier = Modifier
+                    .padding(10.dp, 0.dp, 0.dp, 0.dp)
+                    .height(120.dp)
+                    .weight(2f)
+                    .clip(RoundedCornerShape(10.dp))
+            )
+        }
+        Text(
+            text = "肖申克的救赎",
+            color = Color.Black,
+            style = MaterialTheme.typography.h6,
+            modifier = Modifier.padding(0.dp, 8.dp, 0.dp, 0.dp)
+        )
+        Row(
+            modifier = Modifier.padding(0.dp, 4.dp, 16.dp, 0.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            for (i in 1..5) {
+                Image(
+                    painter = painterResource(id = R.mipmap.icon_star),
+                    contentDescription = "Logo",
+                    modifier = Modifier
+                        .padding(0.dp, 0.dp, 2.dp, 0.dp)
+                        .size(12.dp)
+                )
+            }
+            Text(text = "9.7", color = Color(0xFFFF8D26), style = MaterialTheme.typography.caption)
+        }
+        Text(
+            text = "1994 / 美国 / 犯罪 剧情 导演: 弗兰克·德拉邦特 Frank Darabont   主演: 蒂姆·罗宾斯 Tim Robbins",
+            color = Color(0xFF7A7A7A),
+            style = MaterialTheme.typography.caption,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis,
+            modifier = Modifier.padding(0.dp, 4.dp, 30.dp, 0.dp)
+        )
+        Text(
+            text = "希望让人自由。",
+            color = Color.Black,
+            style = MaterialTheme.typography.body2,
+            modifier = Modifier.padding(0.dp, 4.dp, 0.dp, 0.dp)
+        )
     }
 }
