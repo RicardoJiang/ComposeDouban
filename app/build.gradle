@@ -60,4 +60,5 @@ dependencies {
     implementation "com.google.accompanist:accompanist-coil:0.11.0"
     implementation "com.google.accompanist:accompanist-insets:0.17.0"
     implementation "com.google.accompanist:accompanist-systemuicontroller:0.17.0"
+    implementation "androidx.paging:paging-compose:1.0.0-alpha12"
 }

@@ -29,6 +29,8 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.coil.rememberCoilPainter
 import com.google.accompanist.insets.statusBarsHeight
 import com.zj.composedouban.R
+import com.zj.composedouban.data.RankDetail
+import com.zj.composedouban.data.rankDetailList
 
 @Composable
 fun RankScreen() {
@@ -38,9 +40,11 @@ fun RankScreen() {
             item {
                 RankTopItem()
             }
-            val list = (1..16).toList().map { it.toString() }
-            items(list) {
-                RankListItem()
+            items(rankDetailList) {
+                RankListItem(it)
+            }
+            item {
+                Spacer(modifier = Modifier.height(32.dp))
             }
         }
         RankHeader(scrollState)
@@ -152,7 +156,7 @@ fun RankTopItem() {
 }
 
 @Composable
-fun RankListItem() {
+fun RankListItem(item: RankDetail) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
@@ -160,7 +164,7 @@ fun RankListItem() {
     ) {
         Row() {
             Image(
-                painter = rememberCoilPainter(request = "https://img2.doubanio.com/view/photo/s_ratio_poster/public/p480747492.jpg"),
+                painter = rememberCoilPainter(request = item.imgOne),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -169,7 +173,7 @@ fun RankListItem() {
                     .clip(RoundedCornerShape(10.dp))
             )
             Image(
-                painter = rememberCoilPainter(request = "https://img3.doubanio.com/view/photo/l/public/p456482220.webp"),
+                painter = rememberCoilPainter(request = item.imgTwo),
                 contentDescription = null,
                 contentScale = ContentScale.Crop,
                 modifier = Modifier
@@ -180,7 +184,7 @@ fun RankListItem() {
             )
         }
         Text(
-            text = "肖申克的救赎",
+            text = item.title,
             color = Color.Black,
             style = MaterialTheme.typography.h6,
             modifier = Modifier.padding(0.dp, 8.dp, 0.dp, 0.dp)
@@ -198,10 +202,14 @@ fun RankListItem() {
                         .size(12.dp)
                 )
             }
-            Text(text = "9.7", color = Color(0xFFFF8D26), style = MaterialTheme.typography.caption)
+            Text(
+                text = item.score,
+                color = Color(0xFFFF8D26),
+                style = MaterialTheme.typography.caption
+            )
         }
         Text(
-            text = "1994 / 美国 / 犯罪 剧情 导演: 弗兰克·德拉邦特 Frank Darabont   主演: 蒂姆·罗宾斯 Tim Robbins",
+            text = item.tip,
             color = Color(0xFF7A7A7A),
             style = MaterialTheme.typography.caption,
             maxLines = 1,
@@ -209,7 +217,7 @@ fun RankListItem() {
             modifier = Modifier.padding(0.dp, 4.dp, 30.dp, 0.dp)
         )
         Text(
-            text = "希望让人自由。",
+            text = item.des,
             color = Color.Black,
             style = MaterialTheme.typography.body2,
             modifier = Modifier.padding(0.dp, 4.dp, 0.dp, 0.dp)
