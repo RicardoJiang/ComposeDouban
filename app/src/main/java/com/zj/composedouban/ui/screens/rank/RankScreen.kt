@@ -75,7 +75,7 @@ fun RankHeader(scrollState: LazyListState) {
                     contentDescription = "back",
                     modifier = Modifier
                         .size(52.dp, 44.dp)
-                        .padding(16.dp, 12.dp, 8.dp, 16.dp)
+                        .padding(16.dp, 12.dp, 8.dp, 12.dp)
                         .clickable {
                             activity.finish()
                         }
