@@ -26,6 +26,10 @@ import com.google.accompanist.coil.rememberCoilPainter
 import com.google.accompanist.insets.statusBarsHeight
 import com.google.accompanist.systemuicontroller.rememberSystemUiController
 import com.zj.composedouban.activity.RankDetailActivity
+import com.zj.composedouban.data.HomeTopRank
+import com.zj.composedouban.data.HomeTypeRankItem
+import com.zj.composedouban.data.homeTopRankList
+import com.zj.composedouban.data.homeTypeRankList
 import com.zj.composedouban.util.noRippleClickable
 
 @Composable
@@ -46,8 +50,7 @@ fun HomeScreen() {
         item {
             TypeRankTitle()
         }
-        val list = (1..16).toList().map { it.toString() }
-        items(list.chunked(2)) {
+        items(homeTypeRankList.chunked(2)) {
             TypeRankRow(row = it)
         }
         item {
@@ -66,15 +69,15 @@ fun TopRank() {
         modifier = Modifier.padding(16.dp, 16.dp, 16.dp, 8.dp)
     )
     LazyRow {
-        items(3) {
-            TopRankItem()
+        items(homeTopRankList) {
+            TopRankItem(it)
         }
     }
 }
 
 
 @Composable
-fun TopRankItem() {
+fun TopRankItem(item: HomeTopRank) {
     val context = LocalContext.current
     Box(
         modifier = Modifier
@@ -86,7 +89,7 @@ fun TopRankItem() {
             }
     ) {
         Image(
-            painter = rememberCoilPainter(request = "https://img2.doubanio.com/view/photo/s_ratio_poster/public/p480747492.jpg"),
+            painter = rememberCoilPainter(request = item.imgUrl),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
@@ -96,7 +99,7 @@ fun TopRankItem() {
                 .fillMaxSize()
                 .background(
                     brush = Brush.linearGradient(
-                        colors = listOf(Color(0xFF7F6351), Color(0x807F6351)),
+                        colors = listOf(Color(item.startColor), Color(item.endColor)),
                         start = Offset(0f, Float.POSITIVE_INFINITY),
                         end = Offset(Float.POSITIVE_INFINITY, 0f)
                     )
@@ -105,52 +108,27 @@ fun TopRankItem() {
 
         ) {
             Text(
-                text = "一周口碑电影榜",
+                text = item.title,
                 color = Color.White,
                 style = MaterialTheme.typography.subtitle1
             )
             Text(text = "豆瓣电影", color = Color.White, style = MaterialTheme.typography.overline)
-
-            Text(
-                text = "1 新.福音战士剧场版:终",
-                color = Color.White,
-                style = MaterialTheme.typography.overline,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis,
-                modifier = Modifier.padding(0.dp, 60.dp, 0.dp, 0.dp)
-            )
-            Text(
-                text = "9.3分",
-                color = Color(0xffffac2d),
-                style = MaterialTheme.typography.overline,
-                modifier = Modifier.padding(12.dp, 0.dp, 0.dp, 2.dp)
-            )
-            Text(
-                text = "2 再见了所有福音战士,再见了所有福音战士,再见了所有福音战士",
-                color = Color.White,
-                style = MaterialTheme.typography.overline,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-            Text(
-                text = "9.2分",
-                color = Color(0xffffac2d),
-                style = MaterialTheme.typography.overline,
-                modifier = Modifier.padding(12.dp, 0.dp, 0.dp, 2.dp)
-            )
-            Text(
-                text = "3 健听女孩",
-                color = Color.White,
-                style = MaterialTheme.typography.overline,
-                maxLines = 1,
-                overflow = TextOverflow.Ellipsis
-            )
-            Text(
-                text = "8.3分",
-                color = Color(0xffffac2d),
-                style = MaterialTheme.typography.overline,
-                modifier = Modifier.padding(12.dp, 0.dp, 0.dp, 2.dp)
-            )
+            Spacer(modifier = Modifier.height(60.dp))
+            item.list.forEach {
+                Text(
+                    text = it.title,
+                    color = Color.White,
+                    style = MaterialTheme.typography.overline,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Text(
+                    text = it.score,
+                    color = Color(0xffffac2d),
+                    style = MaterialTheme.typography.overline,
+                    modifier = Modifier.padding(12.dp, 0.dp, 0.dp, 2.dp)
+                )
+            }
         }
     }
 }
@@ -198,6 +176,7 @@ fun YearRow(list: List<String>, selectIdx: Int, onSelectChange: (Int) -> Unit) {
 fun YearRankItems(year: String) {
     val titleList = listOf("华语电影", "外语电影", "冷门佳片")
     val colorList = listOf(0xff442526, 0xff424243, 0xff442C2F)
+    val context = LocalContext.current
     Row(
         horizontalArrangement = Arrangement.SpaceEvenly,
         modifier = Modifier
@@ -211,6 +190,9 @@ fun YearRankItems(year: String) {
                     .size(120.dp)
                     .clip(RoundedCornerShape(10.dp))
                     .background(Color(colorList[i]))
+                    .clickable {
+                        RankDetailActivity.navigate(context)
+                    }
             ) {
                 Column(horizontalAlignment = Alignment.CenterHorizontally) {
                     Text(
@@ -240,7 +222,7 @@ fun TypeRankTitle() {
 }
 
 @Composable
-fun TypeRankRow(row: List<String>) {
+fun TypeRankRow(row: List<HomeTypeRankItem>) {
     val first = row.first()
     val second = row.last()
     Row(
@@ -249,21 +231,25 @@ fun TypeRankRow(row: List<String>) {
             .fillMaxWidth()
             .padding(0.dp, 16.dp, 0.dp, 0.dp)
     ) {
-        TypeRankItem()
-        TypeRankItem()
+        TypeRankItem(first)
+        TypeRankItem(second)
     }
 }
 
 
 @Composable
-fun TypeRankItem() {
+fun TypeRankItem(item: HomeTypeRankItem) {
+    val context = LocalContext.current
     Box(
         modifier = Modifier
             .size(180.dp, 180.dp)
             .clip(RoundedCornerShape(10.dp))
+            .clickable {
+                RankDetailActivity.navigate(context)
+            }
     ) {
         Image(
-            painter = rememberCoilPainter(request = "https://img2.doubanio.com/view/photo/s_ratio_poster/public/p480747492.jpg"),
+            painter = rememberCoilPainter(request = item.imgUrl),
             contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier.fillMaxSize()
@@ -273,7 +259,7 @@ fun TypeRankItem() {
                 .fillMaxSize()
                 .background(
                     brush = Brush.linearGradient(
-                        colors = listOf(Color(0xFF7F6351), Color(0x807F6351)),
+                        colors = listOf(Color(item.startColor), Color(item.endColor)),
                         start = Offset(0f, Float.POSITIVE_INFINITY),
                         end = Offset(Float.POSITIVE_INFINITY, 0f)
                     )
@@ -282,14 +268,14 @@ fun TypeRankItem() {
 
         ) {
             Text(
-                text = "近期",
+                text = item.subTitle,
                 color = Color.White,
                 style = MaterialTheme.typography.subtitle1
             )
-            Text(text = "热门电影Top20", color = Color.White, style = MaterialTheme.typography.h6)
+            Text(text = item.title, color = Color.White, style = MaterialTheme.typography.h6)
 
             Text(
-                text = "1 你好，李焕英",
+                text = item.topOne,
                 color = Color.White,
                 style = MaterialTheme.typography.overline,
                 maxLines = 1,
@@ -297,14 +283,14 @@ fun TypeRankItem() {
                 modifier = Modifier.padding(0.dp, 70.dp, 0.dp, 0.dp)
             )
             Text(
-                text = "2 心灵奇旅",
+                text = item.topTwo,
                 color = Color.White,
                 style = MaterialTheme.typography.overline,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis
             )
             Text(
-                text = "3 送你一朵小红花",
+                text = item.topThree,
                 color = Color.White,
                 style = MaterialTheme.typography.overline,
                 maxLines = 1,
