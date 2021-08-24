@@ -1,10 +1,3 @@
----
-title: 【开源项目】Compose仿豆瓣榜单客户端，了解一下~
-date: 2021-08-24 00:02:24
-tags:
-	- [compose]
----
-
 ## 前言
 `Compose`正式发布也有一段时间了，感觉要上手还是得实战一波。
 所以借着空闲时间，参照豆瓣榜单页面的设计，开发了几个`Compose`版的豆瓣榜单页面
@@ -199,7 +192,5 @@ fun RankScreen(viewModel: RankViewModel = RankViewModel()) {
 
 ### 参考资料
 [Android Jetpack Compose 沉浸式/透明状态栏](https://blog.csdn.net/sinat_38184748/article/details/119345811)
-
 [Collapsing Toolbar made easy with Compose](https://codingtroops.com/android/collapsing-toolbar-made-easy-with-compose/)
-
 [Infinite Lists With Paging 3 in Jetpack Compose](https://proandroiddev.com/infinite-lists-with-paging-3-in-jetpack-compose-b095533aefe6)
