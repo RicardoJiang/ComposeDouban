@@ -6,7 +6,7 @@
 ## 效果图
 首先看下最终的效果图
 
-![](https://github.com/shenzhen2017/resource/blob/main/2021/augest/douban_compress.gif?raw=true)
+![](https://raw.githubusercontents.com/shenzhen2017/resource/main/2021/augest/douban_compress.gif)
 
 ## 特性
 在项目中主要用到了以下几个特性，以美化`UI`及体验
