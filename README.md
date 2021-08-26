@@ -6,7 +6,7 @@
 ## 效果图
 首先看下最终的效果图
 
-![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9d56ca7d86b34863b71201d1e9150c75~tplv-k3u1fbpfcp-watermark.awebp)
+![](https://raw.githubusercontent.com/shenzhen2017/resource/main/2021/augest/douban_compress.gif)
 
 ## 特性
 在项目中主要用到了以下几个特性，以美化`UI`及体验
