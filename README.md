@@ -6,8 +6,6 @@
 ## 效果图
 首先看下最终的效果图
 
-![](https://raw.githubusercontent.com/shenzhen2017/resource/main/2021/augest/douban_compress.gif)
-
 ![](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9d56ca7d86b34863b71201d1e9150c75~tplv-k3u1fbpfcp-watermark.awebp)
 
 ## 特性
